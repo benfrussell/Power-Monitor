@@ -26,8 +26,8 @@ csv_header = [
     # 'ac_energy',
     # 'ac_frequency',
     # 'ac_power_factor',
-    'dc_1_voltage',
-    'dc_1_current'
+    'dc_voltage',
+    'dc_current'
 ]
 last_time = None
 
@@ -60,13 +60,13 @@ with open(csv_file, 'a', newline='') as file:
                 # 'ac_energy': pz.energy,
                 # 'ac_frequency': pz.frequency,
                 # 'ac_power_factor': pz.power_factor,
-                'dc_1_voltage': None,
-                'dc_1_current': None
+                'dc_voltage': None,
+                'dc_current': None
             }
             last_time = new_time
 
             s.flushInput()
-            while data['dc_1_voltage'] is None or data['dc_1_current'] is None or data['temp_1'] is None:
+            while data['dc_voltage'] is None or data['dc_current'] is None:
                 pico_read = s.readline().strip().decode()
                 try:
                     key, value = pico_read.split(',')
@@ -80,6 +80,7 @@ with open(csv_file, 'a', newline='') as file:
             # Write data to CSV
             writer.writerow(data)
             file.flush()  # Ensure data is written immediately
+            time.sleep(0.5)
 
         except serial.SerialTimeoutException:
             print("Connection lost.")
