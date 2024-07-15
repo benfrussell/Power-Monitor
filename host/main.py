@@ -20,15 +20,14 @@ csv_file = 'data.csv'
 csv_header = [
     'timestamp',
     'delta',
-    'ac_voltage',
-    'ac_current',
-    'ac_power',
-    'ac_energy',
-    'ac_frequency',
-    'ac_power_factor',
+    # 'ac_voltage',
+    # 'ac_current',
+    # 'ac_power',
+    # 'ac_energy',
+    # 'ac_frequency',
+    # 'ac_power_factor',
     'dc_1_voltage',
-    'dc_1_current',
-    'temp_1'
+    'dc_1_current'
 ]
 last_time = None
 
