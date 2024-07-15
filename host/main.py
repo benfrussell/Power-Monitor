@@ -7,8 +7,8 @@ from pprint import pprint
 import os
 
 # Initialize PZEM sensor
-pz = PZEM016("/dev/ttyUSB0")
-pz.reset_energy()
+# pz = PZEM016("/dev/ttyUSB0")
+# pz.reset_energy()
 
 # Initialize serial connection
 s = None
@@ -55,26 +55,25 @@ with open(csv_file, 'a', newline='') as file:
             data = {
                 'timestamp': datetime.now().strftime('%H:%M:%S.%f'),
                 'delta': 0 if last_time is None else new_time - last_time,
-                'ac_voltage': pz.voltage,
-                'ac_current': pz.current,
-                'ac_power': pz.power,
-                'ac_energy': pz.energy,
-                'ac_frequency': pz.frequency,
-                'ac_power_factor': pz.power_factor,
+                # 'ac_voltage': pz.voltage,
+                # 'ac_current': pz.current,
+                # 'ac_power': pz.power,
+                # 'ac_energy': pz.energy,
+                # 'ac_frequency': pz.frequency,
+                # 'ac_power_factor': pz.power_factor,
                 'dc_1_voltage': None,
-                'dc_1_current': None,
-                'temp_1': None
+                'dc_1_current': None
             }
             last_time = new_time
 
-            # s.flushInput()
-            # while data['dc_1_voltage'] is None or data['dc_1_current'] is None or data['temp_1'] is None:
-            #     pico_read = s.readline().strip().decode()
-            #     try:
-            #         key, value = pico_read.split(',')
-            #         data[key] = value
-            #     except ValueError:
-            #         pass
+            s.flushInput()
+            while data['dc_1_voltage'] is None or data['dc_1_current'] is None or data['temp_1'] is None:
+                pico_read = s.readline().strip().decode()
+                try:
+                    key, value = pico_read.split(',')
+                    data[key] = value
+                except ValueError:
+                    pass
             
             os.system('clear')
             pprint(data)
