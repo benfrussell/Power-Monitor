@@ -109,7 +109,11 @@ while True:
     if in_v != prev_in_v:
         draw_volts(tft, in_v)
 
-    acs_diff_v = ADS.raw_to_v(ADS.read(0, 0, 3)) * CONV_2V_5V_DIFF
+    # acs_diff_v = ADS.raw_to_v(ADS.read(0, 0, 3)) * CONV_2V_5V_DIFF
+    # amps = (acs_diff_v * 1000) / 66
+
+    acs_correction = -0.0015
+    acs_diff_v = ((ch_v[0] + acs_correction) * CONV_2V_5V_COMMON) - (ch_v[3] * CONV_2V_5V_COMMON / 2)
     amps = (acs_diff_v * 1000) / 66
 
     ticks = time.ticks_ms()
